@@ -20,6 +20,7 @@ const Home: NextPage = () => {
           <h1 className="text-center">
             <span className="block text-2xl mb-2">Welcome to</span>
             <span className="block text-4xl font-bold">Scaffold-ETH 2</span>
+
             <SignedLeaseList tenantAddress={connectedAddress} />
             <CreateLeaseForm />
             <SignLeaseComponent tenantAddress={connectedAddress} propertyAddress={""} leaseLength={0} />
