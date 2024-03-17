@@ -25,8 +25,7 @@ export const useCreateLease = () => {
     const value = parseEther("0"); // Replace this with the appropriate value if needed
 
     writeAsync({
-      //@ts-ignore
-      args: [propertyAddress, leaseLengthBigInt, tenantAddress],
+      args: [propertyAddress, leaseLengthBigInt, tenantAddress] as any,
       value,
     });
   };

@@ -22,7 +22,7 @@ const Home: NextPage = () => {
             <span className="block text-4xl font-bold">Scaffold-ETH 2</span>
             <SignedLeaseList tenantAddress={connectedAddress} />
             <CreateLeaseForm />
-            <SignLeaseComponent tenantAddress={connectedAddress} />
+            <SignLeaseComponent tenantAddress={connectedAddress} propertyAddress={""} leaseLength={0} />
             <MintedLeasesComponent tenantAddress={connectedAddress} />
           </h1>
           <div className="flex justify-center items-center space-x-2">

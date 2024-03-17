@@ -1,13 +1,23 @@
 import React, { useState } from "react";
 import { useSignLease } from "~~/hooks/useSignLease";
 
-const SignLeaseComponent = ({ tenantAddress }: { tenantAddress: any }) => {
+const SignLeaseComponent = ({
+  tenantAddress,
+  propertyAddress,
+  leaseLength,
+}: {
+  tenantAddress: any;
+  propertyAddress: string;
+  leaseLength: number;
+}) => {
   const [leaseId, setLeaseId] = useState(0);
   const { signLease, isLoading, isMining } = useSignLease();
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    signLease(leaseId, tenantAddress);
+    // Now also passing propertyAddress and leaseLength to signLease
+    console.log("Before signLease call, leaseLength:", leaseLength);
+    signLease(leaseId, tenantAddress, propertyAddress, leaseLength);
   };
 
   return (

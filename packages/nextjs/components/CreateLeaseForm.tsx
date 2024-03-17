@@ -3,14 +3,20 @@ import { useCreateLease } from "~~/hooks/useCreateLease";
 
 const CreateLeaseForm = () => {
   const [propertyAddress, setPropertyAddress] = useState("");
-  const [leaseLength, setLeaseLength] = useState(0);
+  const [leaseLength, setLeaseLength] = useState<number>(0); // or another sensible default
   const [tenantAddress, setTenantAddress] = useState("");
 
   const { createLease, isLoading, isMining } = useCreateLease();
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    createLease(propertyAddress, leaseLength, tenantAddress);
+    console.log({ propertyAddress, leaseLength, tenantAddress }); // More detailed logging
+    if (leaseLength !== undefined) {
+      // Ensure leaseLength is not undefined before proceeding
+      createLease(propertyAddress, leaseLength, tenantAddress);
+    } else {
+      console.error("leaseLength is undefined");
+    }
   };
 
   return (

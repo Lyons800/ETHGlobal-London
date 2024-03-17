@@ -1,37 +1,16 @@
-// Ensure this import is correct; it might be 'ethers' instead of 'viem'
 import { useScaffoldContractWrite } from "./scaffold-eth/useScaffoldContractWrite";
 
-// Update the type to include tenantAddress
+// Ensure you have the correct import for parseEther if needed
+// import { parseEther } from "ethers";
+
 type SignLeaseArgs = {
   leaseId: bigint;
   tenantAddress: string;
+  propertyAddress: string;
+  leaseLength: bigint; // Assuming leaseLength needs to be a bigint
 };
 
-type SignLeaseFunctionNames = "signLeaseTest";
-
-// export const useSignLease = () => {
-//   //@ts-ignore
-//   const { writeAsync, isLoading, isMining } = useScaffoldContractWrite<SignLeaseFunctionNames, SignLeaseArgs>({
-//     contractName: "LeaseAgreement",
-//     functionName: "signLeaseTest",
-//     blockConfirmations: 1,
-//     onBlockConfirmation: (txnReceipt: { blockHash: any }) => {
-//       console.log("Transaction blockHash", txnReceipt.blockHash);
-//     },
-//   });
-
-//   // Modify the signLease function to accept tenantAddress
-//   const signLease = (leaseId: number, tenantAddress: string) => {
-//     const leaseIdBigInt = BigInt(leaseId);
-
-//     writeAsync({
-//       //@ts-ignore
-//       args: [leaseIdBigInt, tenantAddress], // Pass both leaseId and tenantAddress to the smart contract
-//       // value, // Include this if your function requires an ETH transfer
-//     }).catch((error: any) => console.error(error)); // It's a good practice to catch and handle errors
-//   };
-
-//   return { signLease, isLoading, isMining };
+type SignLeaseFunctionNames = "signLease";
 
 export const useSignLease = () => {
   //@ts-ignore
@@ -44,14 +23,14 @@ export const useSignLease = () => {
     },
   });
 
-  // Modify the signLease function to accept tenantAddress
-  const signLease = (leaseId: number, tenantAddress: string) => {
+  const signLease = (leaseId: number, tenantAddress: string, propertyAddress: string, leaseLength: number) => {
     const leaseIdBigInt = BigInt(leaseId);
-    // const value = parseEther("0"); // Only include if your contract method requires sending ETH
+    const leaseLengthBigInt = BigInt(leaseLength); // Convert leaseLength to BigInt
+    console.log("Signing lease with length:", leaseLength); // Debugging line
 
     writeAsync({
       //@ts-ignore
-      args: [leaseIdBigInt, tenantAddress, "Hello", 5], // Pass both leaseId and tenantAddress to the smart contract
+      args: [leaseIdBigInt, tenantAddress, propertyAddress, leaseLengthBigInt],
       // value, // Include this if your function requires an ETH transfer
     }).catch((error: any) => console.error(error)); // It's a good practice to catch and handle errors
   };
