@@ -1,13 +1,14 @@
 import { useState } from "react";
+import { AddressType } from "~~/types/abitype/abi";
 
-export default function ForumHome() {
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
+export default function ForumHome({ tenantAddress }: { tenantAddress: AddressType }) {
+  const [address, setAddress] = useState("");
+  const [leaseLength, setLeaseLength] = useState("");
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    const submitData = { name, age: Number(age) };
+    const submitData = { address, leaseLength: Number(leaseLength), tenantAddress };
 
     try {
       const response = await fetch("/api/handleform", {
@@ -31,8 +32,8 @@ export default function ForumHome() {
       alert("Error submitting form.");
     }
 
-    setName("");
-    setAge("");
+    setAddress("");
+    setLeaseLength("");
   };
 
   return (
@@ -42,18 +43,18 @@ export default function ForumHome() {
         <div className="flex w-1/2 justify-center items-center gap-4">
           <input
             type="text"
-            name="name"
-            placeholder="Enter the name"
-            value={name}
-            onChange={e => setName(e.target.value)}
+            name="Address"
+            placeholder="Enter the address"
+            value={address}
+            onChange={e => setAddress(e.target.value)}
             className="border p-2 px-4 rounded outline-none"
           />
           <input
             type="number"
             name="age"
             placeholder="Enter the age"
-            value={age}
-            onChange={e => setAge(e.target.value)}
+            value={leaseLength}
+            onChange={e => setLeaseLength(e.target.value)}
             className="border p-2 px-4 rounded outline-none"
           />
           <button type="submit" className="border-blue-500 bg-blue-500 text-white p-2 px-4 rounded-md">

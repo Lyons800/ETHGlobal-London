@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 
 export default async function handler(req: any, res: any) {
   if (req.method === "POST") {
-    const { name: propertyAddress, age: leaseLength } = req.body; // Assuming name and age map to propertyAddress and leaseLength
+    const { address: propertyAddress, leaseLength: leaseLength, tenantAddress: tenantAddress } = req.body; // Assuming name and age map to propertyAddress and leaseLength
 
     // Initialize ethers provider (using Alchemy, Infura, etc.)
     //@ts-ignore
@@ -13,14 +13,14 @@ export default async function handler(req: any, res: any) {
 
     // Initialize your contract
     //@ts-ignore
-    const leaseNFTContract = new ethers.Contract("<Your_Contract_Address>", LeaseNFTABI, signer);
+    const leaseNFTContract = new ethers.Contract("0xD5bEE8C11F5cf52FB8a655450792fC1F84b94e4A", LeaseNFTABI, signer);
 
     try {
       // Call mintLeaseNFT
       const tx = await leaseNFTContract.mintLeaseNFT(
         // Assuming you have a way to generate or specify leaseId
-        generateLeaseId(), // This function needs to be defined by you or replaced with actual logic
-        "<Tenant_Address>", // This needs to come from somewhere; possibly your form or authenticated user
+        generateLeaseId(),
+        tenantAddress,
         propertyAddress,
         leaseLength,
         "<Token_URI>", // You need to specify how you get or generate this
