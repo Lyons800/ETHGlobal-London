@@ -1,5 +1,5 @@
 // Ensure this import is correct; it might be 'ethers' instead of 'viem'
-import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
+import { useScaffoldContractWrite } from "./scaffold-eth/useScaffoldContractWrite";
 
 // Update the type to include tenantAddress
 type SignLeaseArgs = {
@@ -15,7 +15,7 @@ export const useSignLease = () => {
     contractName: "LeaseAgreement",
     functionName: "signLease",
     blockConfirmations: 1,
-    onBlockConfirmation: txnReceipt => {
+    onBlockConfirmation: (txnReceipt: { blockHash: any }) => {
       console.log("Transaction blockHash", txnReceipt.blockHash);
     },
   });
