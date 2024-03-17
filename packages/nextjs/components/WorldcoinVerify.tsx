@@ -1,8 +1,8 @@
-import dynamic from "next/dynamic";
-import { VerificationLevel } from "@worldcoin/idkit";
+"use client";
+
+import { IDKitWidget, VerificationLevel } from "@worldcoin/idkit";
 
 // Dynamically import the IDKitWidget with SSR disabled
-const IDKitWidgetWithNoSSR = dynamic(() => import("@worldcoin/idkit").then(mod => mod.IDKitWidget), { ssr: false });
 
 const VerifyPage = () => {
   // Define the callbacks for handling verification results
@@ -31,7 +31,7 @@ const VerifyPage = () => {
   };
 
   return (
-    <IDKitWidgetWithNoSSR
+    <IDKitWidget
       app_id="app_staging_bf4e52a26cc55791ee0e063cac569571"
       action="prove-personhood"
       onSuccess={onSuccess}
