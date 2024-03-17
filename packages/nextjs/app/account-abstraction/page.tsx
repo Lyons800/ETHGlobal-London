@@ -2,9 +2,7 @@
 
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
-import CreateLeaseForm from "~~/components/CreateLeaseForm";
-import MintedLeasesComponent from "~~/components/LeasesList";
-import SignLeaseComponent from "~~/components/SignLeaseForm";
+import ForumHome from "~~/components/Fofum";
 import { Address } from "~~/components/scaffold-eth";
 
 const Home: NextPage = () => {
@@ -16,15 +14,13 @@ const Home: NextPage = () => {
         <div className="px-5">
           <h1 className="text-center">
             <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Tenant Ledger</span>
-
-            <CreateLeaseForm />
-            <SignLeaseComponent tenantAddress={connectedAddress} propertyAddress={""} leaseLength={0} />
-            <MintedLeasesComponent tenantAddress={connectedAddress} />
+            <span className="block text-4xl font-bold">Scaffold-ETH 2</span>
+            <ForumHome />
           </h1>
           <div className="flex justify-center items-center space-x-2">
             <p className="my-2 font-medium">Connected Address:</p>
             <Address address={connectedAddress} />
+            <div></div>{" "}
           </div>
         </div>
       </div>

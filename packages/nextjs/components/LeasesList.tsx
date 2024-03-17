@@ -16,7 +16,7 @@ const TenantLeases = ({ tenantAddress }: { tenantAddress: any }) => {
         <p>No leases found for this tenant.</p>
       ) : (
         <ul>
-          {leases.map((lease, index) => (
+          {leases.map((lease: any, index: any) => (
             <li key={index}>
               Lease ID: {lease.toString()} {/* Adjust according to what `getLeasesByTenant` actually returns */}
               {/* Further details can be added here */}

@@ -19,7 +19,7 @@ export const useLeaseDetailsByTenant = (tenantAddress: string) => {
     const [nftIds, propertyAddresses, leaseLengths] = data;
 
     // Map over the nftIds to create an array of lease details
-    return nftIds.map((id, index) => ({
+    return nftIds.map((id: any, index: any) => ({
       nftId: id.toString(),
       propertyAddress: propertyAddresses[index],
       leaseLength: leaseLengths[index].toString(),

@@ -15,6 +15,7 @@ export const useGetLeaseDetails = (leaseId: number) => {
   const { data, isLoading, isError, error, refetch } = useScaffoldContractRead<
     //@ts-ignore
     GetLeaseDetailsFunctionNames,
+    //@ts-ignore
     LeaseDetails
   >({
     contractName: "LeaseAgreement", // The name of your deployed contract

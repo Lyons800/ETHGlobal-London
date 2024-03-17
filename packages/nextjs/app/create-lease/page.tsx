@@ -3,11 +3,9 @@
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import CreateLeaseForm from "~~/components/CreateLeaseForm";
-import MintedLeasesComponent from "~~/components/LeasesList";
-import SignLeaseComponent from "~~/components/SignLeaseForm";
 import { Address } from "~~/components/scaffold-eth";
 
-const Home: NextPage = () => {
+const CreateLeasePage: NextPage = () => {
   const { address: connectedAddress } = useAccount();
 
   return (
@@ -19,17 +17,20 @@ const Home: NextPage = () => {
             <span className="block text-4xl font-bold">Tenant Ledger</span>
 
             <CreateLeaseForm />
-            <SignLeaseComponent tenantAddress={connectedAddress} propertyAddress={""} leaseLength={0} />
-            <MintedLeasesComponent tenantAddress={connectedAddress} />
           </h1>
           <div className="flex justify-center items-center space-x-2">
             <p className="my-2 font-medium">Connected Address:</p>
             <Address address={connectedAddress} />
+            <div></div>{" "}
           </div>
+        </div>
+
+        <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
+          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row"></div>
         </div>
       </div>
     </>
   );
 };
 
-export default Home;
+export default CreateLeasePage;
