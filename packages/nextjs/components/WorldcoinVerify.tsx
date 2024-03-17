@@ -1,5 +1,6 @@
 "use client";
 
+//@ts-ignore
 import { IDKitWidget, VerificationLevel } from "@worldcoin/idkit";
 
 // Dynamically import the IDKitWidget with SSR disabled

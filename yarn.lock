@@ -12252,6 +12252,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"permissionless@npm:^0.1.10":
+  version: 0.1.10
+  resolution: "permissionless@npm:0.1.10"
+  peerDependencies:
+    viem: ^2.0.0
+  checksum: 734386481faed4f6f4a7cd742be1749140711e1d6139f031b1935bea0c1496324b1659f37c645ce392780c7034e782f76eef49b6149ed2b5a2382a0fae1daf8f
+  languageName: node
+  linkType: hard
+
 "picocolors@npm:1.0.0, picocolors@npm:^1, picocolors@npm:^1.0.0":
   version: 1.0.0
   resolution: "picocolors@npm:1.0.0"
@@ -13469,6 +13478,7 @@ __metadata:
     husky: ^8.0.1
     lint-staged: ^13.0.3
     next: ^14.0.4
+    permissionless: ^0.1.10
     prop-types: ^15.8.1
     react: latest
     react-dom: latest
