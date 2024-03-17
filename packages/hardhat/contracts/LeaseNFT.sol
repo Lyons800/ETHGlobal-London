@@ -89,4 +89,15 @@ contract LeaseNFT is ERC721URIStorage {
 			leaseLengths[i] = lease.leaseLength;
 		}
 	}
+
+	// Add a function to view all NFTs minted by a specific tenant, along with their details
+	function getAllLeases()
+		public
+		view
+		returns (
+			uint256[] memory nftIds,
+			string[] memory propertyAddresses,
+			uint256[] memory leaseLengths
+		)
+	{}
 }

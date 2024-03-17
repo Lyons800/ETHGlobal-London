@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./interfaces/ILeaseToken.sol"; // Make sure this path matches your project structure
 
-contract LeaseAgreement is ILeaseAgreement, Ownable {
+contract LeaseAgreement is Ownable {
 	struct Lease {
 		string propertyAddress;
 		uint256 leaseLength; // In days, months, etc.
@@ -25,7 +25,6 @@ contract LeaseAgreement is ILeaseAgreement, Ownable {
 	)
 		public
 		view
-		override
 		returns (
 			string memory propertyAddress,
 			uint256 leaseLength,
@@ -42,7 +41,12 @@ contract LeaseAgreement is ILeaseAgreement, Ownable {
 		);
 	}
 
-	function signLease(uint256 leaseId, address tenant) public override {
+	function signLease(
+		uint256 leaseId,
+		address tenant,
+		string memory propertyAddress,
+		uint256 leaseLength
+	) public {
 		require(leaseId < leases.length, "Lease does not exist.");
 		require(
 			leases[leaseId].tenantAddress == tenant,
@@ -54,7 +58,13 @@ contract LeaseAgreement is ILeaseAgreement, Ownable {
 		leases[leaseId].signed = true;
 
 		// Here, call the LeaseNFT contract to mint the NFT
-		ILeaseNFT(leaseNftAddress).mintLeaseNFT(leaseId, tenant, "TokenURI");
+		ILeaseNFT(leaseNftAddress).mintLeaseNFT(
+			leaseId,
+			tenant,
+			propertyAddress,
+			leaseLength,
+			"TokenURI"
+		);
 	}
 
 	mapping(address => uint256[]) private tenantLeases;
@@ -88,6 +98,8 @@ interface ILeaseNFT {
 	function mintLeaseNFT(
 		uint256 leaseId,
 		address tenant,
+		string memory propertyAddress,
+		uint256 leaseLength,
 		string memory tokenURI
 	) external;
 }

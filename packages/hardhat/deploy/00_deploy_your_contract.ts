@@ -6,7 +6,7 @@ const deployContracts: DeployFunction = async function (hre: HardhatRuntimeEnvir
   const { deploy } = hre.deployments;
   const { ethers } = hre;
 
-  // Deploy LeaseAgreement first
+  // Deploy LeaseAgreement
   const leaseAgreement = await deploy("LeaseAgreement", {
     from: deployer,
     log: true,
@@ -15,21 +15,25 @@ const deployContracts: DeployFunction = async function (hre: HardhatRuntimeEnvir
 
   console.log("LeaseAgreement deployed to:", leaseAgreement.address);
 
-  // Then deploy LeaseNFT
+  // Define the base URI for the NFT metadata
+
+  // Deploy LeaseNFT with LeaseAgreement address and base URI as arguments
+  // Deploy LeaseNFT with LeaseAgreement address as the only argument
   const leaseNFT = await deploy("LeaseNFT", {
     from: deployer,
+    args: [leaseAgreement.address], // Only this argument is needed
     log: true,
     autoMine: true,
-    args: [leaseAgreement.address], // pass the leaseAgreement address as a constructor argument
   });
-
   console.log("LeaseNFT deployed to:", leaseNFT.address);
 
-  // Get the LeaseAgreement contract
+  // Get the LeaseAgreement contract instance
   const leaseAgreementContract = await ethers.getContractAt("LeaseAgreement", leaseAgreement.address);
 
   // Set the LeaseNFT address in the LeaseAgreement contract
-  await leaseAgreementContract.setLeaseNftAddress(leaseNFT.address);
+  const setNftAddressTx = await leaseAgreementContract.setLeaseNftAddress(leaseNFT.address);
+  await setNftAddressTx.wait(); // Wait for the transaction to be mined
+  console.log("LeaseNFT address set in LeaseAgreement contract:", leaseNFT.address);
 };
 
 export default deployContracts;

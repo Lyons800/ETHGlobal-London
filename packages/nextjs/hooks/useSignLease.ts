@@ -7,7 +7,31 @@ type SignLeaseArgs = {
   tenantAddress: string;
 };
 
-type SignLeaseFunctionNames = "signLease";
+type SignLeaseFunctionNames = "signLeaseTest";
+
+// export const useSignLease = () => {
+//   //@ts-ignore
+//   const { writeAsync, isLoading, isMining } = useScaffoldContractWrite<SignLeaseFunctionNames, SignLeaseArgs>({
+//     contractName: "LeaseAgreement",
+//     functionName: "signLeaseTest",
+//     blockConfirmations: 1,
+//     onBlockConfirmation: (txnReceipt: { blockHash: any }) => {
+//       console.log("Transaction blockHash", txnReceipt.blockHash);
+//     },
+//   });
+
+//   // Modify the signLease function to accept tenantAddress
+//   const signLease = (leaseId: number, tenantAddress: string) => {
+//     const leaseIdBigInt = BigInt(leaseId);
+
+//     writeAsync({
+//       //@ts-ignore
+//       args: [leaseIdBigInt, tenantAddress], // Pass both leaseId and tenantAddress to the smart contract
+//       // value, // Include this if your function requires an ETH transfer
+//     }).catch((error: any) => console.error(error)); // It's a good practice to catch and handle errors
+//   };
+
+//   return { signLease, isLoading, isMining };
 
 export const useSignLease = () => {
   //@ts-ignore
@@ -27,7 +51,7 @@ export const useSignLease = () => {
 
     writeAsync({
       //@ts-ignore
-      args: [leaseIdBigInt, tenantAddress], // Pass both leaseId and tenantAddress to the smart contract
+      args: [leaseIdBigInt, tenantAddress, "Hello", 5], // Pass both leaseId and tenantAddress to the smart contract
       // value, // Include this if your function requires an ETH transfer
     }).catch((error: any) => console.error(error)); // It's a good practice to catch and handle errors
   };

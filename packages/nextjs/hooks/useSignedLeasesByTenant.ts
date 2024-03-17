@@ -1,25 +1,31 @@
-// import React from "react";
-// import { useScaffoldContractRead } from "./scaffold-eth";
+import React from "react";
+import { useScaffoldContractRead } from "./scaffold-eth";
 
-// export const useLeaseDetailsByTenant = (tenantAddress: string) => {
-//   const { data, isError, isLoading, refetch } = useScaffoldContractRead({
-//     contractName: "LeaseNFT",
-//     functionName: "getNftsByTenant",
-//     args: [tenantAddress],
-//     watch: true,
-//   });
+export const useLeaseDetailsByTenant = (tenantAddress: string) => {
+  const { data, isError, isLoading, refetch } = useScaffoldContractRead({
+    contractName: "LeaseNFT",
+    functionName: "getNftsByTenant",
+    args: [tenantAddress],
+    watch: true,
+  });
 
-//   // Process the returned data to create leaseDetails
-//   const leaseDetails = React.useMemo(() => {
-//     if (!data || !data.nftIds) return [];
+  // Process the returned data to create leaseDetails
+  const leaseDetails = React.useMemo(() => {
+    // Check if data exists and has the expected structure
+    if (!data || !Array.isArray(data[0]) || !Array.isArray(data[1]) || !Array.isArray(data[2])) return [];
 
-//     return data.nftIds.map((id: any, index: any) => ({
-//       propertyAddress: data.propertyAddresses[index],
-//       leaseLength: data.leaseLengths[index].toString(),
-//       tenantAddress,
-//       nftId: id.toString(),
-//     }));
-//   }, [data, tenantAddress]);
+    console.log("data", data);
 
-//   return { leaseDetails: data ? leaseDetails : [], isError, isLoading, refetch };
-// };
+    const [nftIds, propertyAddresses, leaseLengths] = data;
+
+    // Map over the nftIds to create an array of lease details
+    return nftIds.map((id, index) => ({
+      nftId: id.toString(),
+      propertyAddress: propertyAddresses[index],
+      leaseLength: leaseLengths[index].toString(),
+      tenantAddress,
+    }));
+  }, [data, tenantAddress]);
+
+  return { leaseDetails, isError, isLoading, refetch };
+};
