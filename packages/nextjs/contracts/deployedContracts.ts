@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     LeaseAgreement: {
-      address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      address: "0x59b670e9fA9D0A427751Af201D676719a970857b",
       abi: [
         {
           anonymous: false,
@@ -83,29 +83,6 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [],
-          name: "getAllLeases",
-          outputs: [
-            {
-              internalType: "address[]",
-              name: "",
-              type: "address[]",
-            },
-            {
-              internalType: "uint256[]",
-              name: "",
-              type: "uint256[]",
-            },
-            {
-              internalType: "bool[]",
-              name: "",
-              type: "bool[]",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
           inputs: [
             {
               internalType: "uint256",
@@ -140,8 +117,14 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [],
-          name: "getLeaseNftTokenIds",
+          inputs: [
+            {
+              internalType: "address",
+              name: "tenant",
+              type: "address",
+            },
+          ],
+          name: "getLeasesByTenant",
           outputs: [
             {
               internalType: "uint256[]",
@@ -153,19 +136,13 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          name: "leaseToNftTokenId",
+          inputs: [],
+          name: "leaseNftAddress",
           outputs: [
             {
-              internalType: "uint256",
+              internalType: "address",
               name: "",
-              type: "uint256",
+              type: "address",
             },
           ],
           stateMutability: "view",
@@ -228,6 +205,19 @@ const deployedContracts = {
         {
           inputs: [
             {
+              internalType: "address",
+              name: "_address",
+              type: "address",
+            },
+          ],
+          name: "setLeaseNftAddress",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
               internalType: "uint256",
               name: "leaseId",
               type: "uint256",
@@ -264,7 +254,7 @@ const deployedContracts = {
       },
     },
     LeaseNFT: {
-      address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+      address: "0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1",
       abi: [
         {
           inputs: [
@@ -443,6 +433,64 @@ const deployedContracts = {
         {
           inputs: [
             {
+              internalType: "uint256",
+              name: "nftId",
+              type: "uint256",
+            },
+          ],
+          name: "getLeaseDetails",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "tenantAddress",
+              type: "address",
+            },
+          ],
+          name: "getNftsByTenant",
+          outputs: [
+            {
+              internalType: "uint256[]",
+              name: "nftIds",
+              type: "uint256[]",
+            },
+            {
+              internalType: "string[]",
+              name: "propertyAddresses",
+              type: "string[]",
+            },
+            {
+              internalType: "uint256[]",
+              name: "leaseLengths",
+              type: "uint256[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
               internalType: "address",
               name: "owner",
               type: "address",
@@ -465,10 +513,57 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [],
+          name: "leaseAgreementAddress",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "leaseIdToNftId",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
           inputs: [
             {
               internalType: "uint256",
               name: "leaseId",
+              type: "uint256",
+            },
+            {
+              internalType: "address",
+              name: "tenant",
+              type: "address",
+            },
+            {
+              internalType: "string",
+              name: "propertyAddress",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "leaseLength",
               type: "uint256",
             },
             {
@@ -478,13 +573,7 @@ const deployedContracts = {
             },
           ],
           name: "mintLeaseNFT",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
+          outputs: [],
           stateMutability: "nonpayable",
           type: "function",
         },
@@ -496,6 +585,35 @@ const deployedContracts = {
               internalType: "string",
               name: "",
               type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "nftIdToLease",
+          outputs: [
+            {
+              internalType: "string",
+              name: "propertyAddress",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "leaseLength",
+              type: "uint256",
+            },
+            {
+              internalType: "address",
+              name: "tenantAddress",
+              type: "address",
             },
           ],
           stateMutability: "view",
@@ -585,19 +703,6 @@ const deployedContracts = {
             },
           ],
           name: "setApprovalForAll",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "leaseId",
-              type: "uint256",
-            },
-          ],
-          name: "signLease",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",

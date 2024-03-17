@@ -1,8 +1,10 @@
-import { parseEther } from "viem";
+// Ensure this import is correct; it might be 'ethers' instead of 'viem'
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
+// Update the type to include tenantAddress
 type SignLeaseArgs = {
   leaseId: bigint;
+  tenantAddress: string;
 };
 
 type SignLeaseFunctionNames = "signLease";
@@ -18,15 +20,16 @@ export const useSignLease = () => {
     },
   });
 
-  const signLease = (leaseId: number) => {
+  // Modify the signLease function to accept tenantAddress
+  const signLease = (leaseId: number, tenantAddress: string) => {
     const leaseIdBigInt = BigInt(leaseId);
-    const value = parseEther("0"); // Replace this with the appropriate value if needed
+    // const value = parseEther("0"); // Only include if your contract method requires sending ETH
 
     writeAsync({
       //@ts-ignore
-      args: [leaseIdBigInt],
-      value,
-    });
+      args: [leaseIdBigInt, tenantAddress], // Pass both leaseId and tenantAddress to the smart contract
+      // value, // Include this if your function requires an ETH transfer
+    }).catch((error: any) => console.error(error)); // It's a good practice to catch and handle errors
   };
 
   return { signLease, isLoading, isMining };

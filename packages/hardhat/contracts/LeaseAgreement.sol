@@ -1,25 +1,31 @@
+// LeaseAgreement.sol
+
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "./interfaces/ILeaseToken.sol"; // Make sure this path matches your project structure
 
-contract LeaseAgreement is Ownable {
+contract LeaseAgreement is ILeaseAgreement, Ownable {
 	struct Lease {
 		string propertyAddress;
-		uint256 leaseLength; // Could be in days, months, etc.
+		uint256 leaseLength; // In days, months, etc.
 		address tenantAddress;
 		bool signed;
 	}
 
 	Lease[] public leases;
+	address public leaseNftAddress;
 
-	// In LeaseAgreement.sol
+	function setLeaseNftAddress(address _address) public onlyOwner {
+		leaseNftAddress = _address;
+	}
 
 	function getLeaseDetails(
 		uint256 leaseId
 	)
 		public
 		view
+		override
 		returns (
 			string memory propertyAddress,
 			uint256 leaseLength,
@@ -35,36 +41,39 @@ contract LeaseAgreement is Ownable {
 			lease.signed
 		);
 	}
-	function signLease(uint256 leaseId, address tenant) public {
-		// Basic checks to ensure the lease exists and the tenant is correct
+
+	function signLease(uint256 leaseId, address tenant) public override {
 		require(leaseId < leases.length, "Lease does not exist.");
 		require(
 			leases[leaseId].tenantAddress == tenant,
 			"Only the designated tenant can sign this lease."
 		);
+		require(!leases[leaseId].signed, "Lease already signed.");
+		require(leaseNftAddress != address(0), "LeaseNFT address not set.");
 
-		// Additional checks can be added, for example, to prevent re-signing an already signed lease
-
-		// Sign the lease
 		leases[leaseId].signed = true;
+
+		// Here, call the LeaseNFT contract to mint the NFT
+		ILeaseNFT(leaseNftAddress).mintLeaseNFT(leaseId, tenant, "TokenURI");
 	}
 
-	function getAllLeases()
-		public
-		view
-		returns (address[] memory, uint256[] memory, bool[] memory)
-	{
-		address[] memory tenantAddresses = new address[](leases.length);
-		uint256[] memory leaseLengths = new uint256[](leases.length);
-		bool[] memory signedStatuses = new bool[](leases.length);
+	mapping(address => uint256[]) private tenantLeases;
 
-		for (uint i = 0; i < leases.length; i++) {
-			tenantAddresses[i] = leases[i].tenantAddress;
-			leaseLengths[i] = leases[i].leaseLength;
-			signedStatuses[i] = leases[i].signed;
-		}
+	function getLeasesByTenant(
+		address tenant
+	) public view returns (uint256[] memory) {
+		return tenantLeases[tenant];
+	}
 
-		return (tenantAddresses, leaseLengths, signedStatuses);
+	function createLease(
+		string memory propertyAddress,
+		uint256 leaseLength,
+		address tenantAddress
+	) public {
+		leases.push(Lease(propertyAddress, leaseLength, tenantAddress, false));
+		uint256 leaseId = leases.length - 1;
+		tenantLeases[tenantAddress].push(leaseId); // Update the mapping for the tenant
+		emit LeaseCreated(leaseId, tenantAddress, leaseLength, 0); // tokenId is 0 since it's minted later
 	}
 
 	event LeaseCreated(
@@ -73,39 +82,12 @@ contract LeaseAgreement is Ownable {
 		uint256 leaseLength,
 		uint256 tokenId
 	);
+}
 
-	function createLease(
-		string memory propertyAddress,
-		uint256 leaseLength,
-		address tenantAddress
-	) public {
-		uint256 leaseId = leases.length;
-		leases.push(Lease(propertyAddress, leaseLength, tenantAddress, false));
-
-		// Hypothetical function to mint an NFT for the lease and get its token ID
-		uint256 tokenId = _mintNFT(tenantAddress, leaseId);
-
-		emit LeaseCreated(leaseId, tenantAddress, leaseLength, tokenId);
-	}
-
-	function _mintNFT(
+interface ILeaseNFT {
+	function mintLeaseNFT(
+		uint256 leaseId,
 		address tenant,
-		uint256 leaseId
-	) internal returns (uint256 tokenId) {
-		// Mint your NFT here and return the token ID
-		// This is a placeholder function. Implement NFT minting logic as per your requirement.
-		return 0; // Placeholder return value
-	}
-
-	mapping(uint256 => uint256) public leaseToNftTokenId;
-
-	function getLeaseNftTokenIds() public view returns (uint256[] memory) {
-		uint256[] memory tokenIds = new uint256[](leases.length);
-		for (uint i = 0; i < leases.length; i++) {
-			tokenIds[i] = leaseToNftTokenId[i];
-		}
-		return tokenIds;
-	}
-
-	// Additional functions such as modifying or cancelling leases could be added here.
+		string memory tokenURI
+	) external;
 }

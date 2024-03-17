@@ -36,12 +36,15 @@
   },
   "packageManager": "yarn@3.2.3",
   "devDependencies": {
+    "@typechain/ethers-v5": "^11.1.2",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "next": "^14.0.4",
+    "typechain": "^8.3.2",
     "vercel": "^32.4.1"
   },
   "dependencies": {
+    "@web3-react/core": "^8.2.3",
     "ethereum-waffle": "^4.0.10",
     "ethers": "^6.11.1"
   }

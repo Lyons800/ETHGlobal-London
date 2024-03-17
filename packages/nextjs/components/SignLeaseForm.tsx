@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useSignLease } from "~~/hooks/useSignLease";
 
-const SignLeaseComponent = () => {
+const SignLeaseComponent = ({ tenantAddress }: { tenantAddress: any }) => {
   const [leaseId, setLeaseId] = useState(0);
   const { signLease, isLoading, isMining } = useSignLease();
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    signLease(leaseId);
+    signLease(leaseId, tenantAddress);
   };
 
   return (

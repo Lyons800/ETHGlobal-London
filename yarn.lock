@@ -601,7 +601,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethersproject/address@npm:5.7.0, @ethersproject/address@npm:^5.0.0, @ethersproject/address@npm:^5.0.2, @ethersproject/address@npm:^5.7.0":
+"@ethersproject/address@npm:5.7.0, @ethersproject/address@npm:^5, @ethersproject/address@npm:^5.0.0, @ethersproject/address@npm:^5.0.2, @ethersproject/address@npm:^5.7.0":
   version: 5.7.0
   resolution: "@ethersproject/address@npm:5.7.0"
   dependencies:
@@ -783,7 +783,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethersproject/providers@npm:5.7.2, @ethersproject/providers@npm:^5.7.1, @ethersproject/providers@npm:^5.7.2":
+"@ethersproject/providers@npm:5.7.2, @ethersproject/providers@npm:^5, @ethersproject/providers@npm:^5.7.1, @ethersproject/providers@npm:^5.7.2":
   version: 5.7.2
   resolution: "@ethersproject/providers@npm:5.7.2"
   dependencies:
@@ -2668,6 +2668,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@typechain/ethers-v5@npm:^11.1.2":
+  version: 11.1.2
+  resolution: "@typechain/ethers-v5@npm:11.1.2"
+  dependencies:
+    lodash: ^4.17.15
+    ts-essentials: ^7.0.1
+  peerDependencies:
+    "@ethersproject/abi": ^5.0.0
+    "@ethersproject/providers": ^5.0.0
+    ethers: ^5.1.3
+    typechain: ^8.3.2
+    typescript: ">=4.3.0"
+  checksum: 4f2d458306094c8e57bc0e05c86c1def210bd8b2cadd1062218cbc35fe3f6ac98aca08646c935a6fa5e57599be9fc0ddd2d4f7cf960fe28e27bf3ed58906c71f
+  languageName: node
+  linkType: hard
+
 "@typechain/ethers-v6@npm:^0.5.1":
   version: 0.5.1
   resolution: "@typechain/ethers-v6@npm:0.5.1"
@@ -4089,6 +4105,43 @@ __metadata:
     "@walletconnect/window-getters": ^1.0.1
     tslib: 1.14.1
   checksum: e82aea7195c6fe95c00e87bb38051c5549838c2e8302da94f1afa48206f79f0b620166c9820f847494505d282d1568e2086a1561b0493d2d0a1fa115f9106aef
+  languageName: node
+  linkType: hard
+
+"@web3-react/core@npm:^8.2.3":
+  version: 8.2.3
+  resolution: "@web3-react/core@npm:8.2.3"
+  dependencies:
+    "@ethersproject/providers": ^5
+    "@web3-react/store": ^8.2.3
+    "@web3-react/types": ^8.2.3
+    zustand: 4.4.0
+  peerDependencies:
+    react: ">=16.8"
+  dependenciesMeta:
+    "@ethersproject/providers":
+      optional: true
+  checksum: 23aff5864c580c1799f75dea3edbeef7270a553fed5f8569cca42687f51e9b55b6d46c87104f5c66f49b66caffba3ea581726ecab2b39807319b192d0e0909c4
+  languageName: node
+  linkType: hard
+
+"@web3-react/store@npm:^8.2.3":
+  version: 8.2.3
+  resolution: "@web3-react/store@npm:8.2.3"
+  dependencies:
+    "@ethersproject/address": ^5
+    "@web3-react/types": ^8.2.3
+    zustand: 4.4.0
+  checksum: 97f8984f82b597e5a0bd012b416d2935c4d92cb2d11398e4b6194c338b796e9c0af94cef5414689cb7ed08f670021c87159c3bdb49aa8c7810480fffc804bf6c
+  languageName: node
+  linkType: hard
+
+"@web3-react/types@npm:^8.2.3":
+  version: 8.2.3
+  resolution: "@web3-react/types@npm:8.2.3"
+  dependencies:
+    zustand: 4.4.0
+  checksum: 30c1d3c98a36f5cdde8deb949ae71bc55afbfc3609d75bf7c5ec9f89a11d69c58a41ce5fc5aea5c73ed7abcc8b90bf5a9cdb5dba8cb778a9ea41921bf73cb3e9
   languageName: node
   linkType: hard
 
@@ -13264,11 +13317,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "se-2@workspace:."
   dependencies:
+    "@typechain/ethers-v5": ^11.1.2
+    "@web3-react/core": ^8.2.3
     ethereum-waffle: ^4.0.10
     ethers: ^6.11.1
     husky: ^8.0.1
     lint-staged: ^13.0.3
     next: ^14.0.4
+    typechain: ^8.3.2
     vercel: ^32.4.1
   languageName: unknown
   linkType: soft
@@ -14652,7 +14708,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typechain@npm:^8.0.0":
+"typechain@npm:^8.0.0, typechain@npm:^8.3.2":
   version: 8.3.2
   resolution: "typechain@npm:8.3.2"
   dependencies:
@@ -15859,6 +15915,26 @@ __metadata:
   peerDependencies:
     ethers: ^5.7.0
   checksum: f702a3437f48a8d42c4bb35b8dd13671a168aadfc4e23ce723d62959220ccb6bf9c529c60331fe5b91afaa622147c6a37490551474fe3e35c06ac476524b5160
+  languageName: node
+  linkType: hard
+
+"zustand@npm:4.4.0":
+  version: 4.4.0
+  resolution: "zustand@npm:4.4.0"
+  dependencies:
+    use-sync-external-store: 1.2.0
+  peerDependencies:
+    "@types/react": ">=16.8"
+    immer: ">=9.0"
+    react: ">=16.8"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    immer:
+      optional: true
+    react:
+      optional: true
+  checksum: 37e69eec1b56677a93712e5aa6d0048b55997379919dc0f78f61181f8a58994a6cae064f816f8101f5b1039008d3c1c9d136432a62e0edeb796807cc84cf45ef
   languageName: node
   linkType: hard
 

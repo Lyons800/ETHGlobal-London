@@ -1,30 +1,31 @@
 import React from "react";
-import { useGetAllLeasesWithNfts } from "~~/hooks/useGetAllLeases";
+import { useLeasesByTenant } from "~~/hooks/useGetTenantLeases";
 
-// Update the import path as necessary
+// Adjust the path as necessary
 
-function LeaseList() {
-  const { data, isLoading, isError, error } = useGetAllLeasesWithNfts();
+const TenantLeases = ({ tenantAddress }: { tenantAddress: any }) => {
+  const { data: leases, isError, isLoading } = useLeasesByTenant(tenantAddress);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error: {error?.message}</div>;
+  if (isLoading) return <div>Loading leases...</div>;
+  if (isError || !leases) return <div>Error fetching leases.</div>;
 
   return (
     <div>
-      <h2>Leases and Associated NFTs</h2>
-      {data &&
-        data.map((lease, index) => (
-          <div key={index}>
-            <p>Tenant Address: {lease.tenantAddress}</p>
-            {/* Check for undefined values and provide fallback */}
-            <p>Lease Length: {lease.leaseLength?.toString() ?? "N/A"}</p>
-            <p>Signed: {lease.signed ? "Yes" : "No"}</p>
-            {/* Use optional chaining with fallback for tokenId */}
-            <p>NFT Token ID: {lease.tokenId?.toString() ?? "N/A"}</p>
-          </div>
-        ))}
+      <h2>Tenant Leases</h2>
+      {leases.length === 0 ? (
+        <p>No leases found for this tenant.</p>
+      ) : (
+        <ul>
+          {leases.map((lease, index) => (
+            <li key={index}>
+              Lease ID: {lease.toString()} {/* Adjust according to what `getLeasesByTenant` actually returns */}
+              {/* Further details can be added here */}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
-}
+};
 
-export default LeaseList;
+export default TenantLeases;

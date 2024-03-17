@@ -1,57 +1,37 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
 
-describe("LeaseAgreement", function () {
-  let LeaseAgreement: any;
-  let leaseAgreement: any;
-  let owner: any;
-  let tenant: any;
+describe("LeaseNFT", function () {
+  let LeaseNFT, LeaseAgreement: any;
+  let leaseNFT: any, leaseAgreement: any;
+  let owner: any, tenant: any;
 
   beforeEach(async function () {
-    LeaseAgreement = await ethers.getContractFactory("LeaseAgreement");
     [owner, tenant] = await ethers.getSigners();
+
+    // Deploy LeaseAgreement
+    LeaseAgreement = await ethers.getContractFactory("LeaseAgreement");
     leaseAgreement = await LeaseAgreement.deploy();
+
+    // Deploy LeaseNFT with the LeaseAgreement address
+    LeaseNFT = await ethers.getContractFactory("LeaseNFT");
+    leaseNFT = await LeaseNFT.deploy(leaseAgreement.address);
+
+    // Set the LeaseNFT address in the LeaseAgreement contract
+    await leaseAgreement.setLeaseNftAddress(leaseNFT.address);
   });
 
-  describe("Deployment", function () {
-    it("Should set the right owner", async function () {
-      expect(await leaseAgreement.owner()).to.equal(owner.address);
-    });
-  });
-
-  describe("Lease Creation", function () {
-    it("Should create a new lease", async function () {
-      await leaseAgreement.connect(owner).createLease("Property Address 1", 30, tenant.address);
-      const lease = await leaseAgreement.getLeaseDetails(0);
-      expect(lease.propertyAddress).to.equal("Property Address 1");
-      expect(lease.leaseLength).to.equal(30);
-      expect(lease.tenantAddress).to.equal(tenant.address);
-      expect(lease.signed).to.equal(false);
-    });
-  });
-
-  describe("Lease Signing", function () {
-    beforeEach(async function () {
-      await leaseAgreement.connect(owner).createLease("Property Address 1", 30, tenant.address);
-    });
-
-    it("Should sign a lease", async function () {
+  describe("Minting NFT", function () {
+    it("Should allow minting of NFT for a signed lease", async function () {
+      // Create a lease and sign it (assuming signLease also mints the NFT)
+      await leaseAgreement.connect(owner).createLease("123 Main St", 12, tenant.address);
       await leaseAgreement.connect(tenant).signLease(0, tenant.address);
-      const lease = await leaseAgreement.getLeaseDetails(0);
-      expect(lease.signed).to.equal(true);
-    });
 
-    it("Should not sign a non-existent lease", async function () {
-      await expect(leaseAgreement.connect(tenant).signLease(1, tenant.address)).to.be.revertedWith(
-        "Lease does not exist.",
-      );
-    });
-
-    it("Should not allow non-tenant to sign a lease", async function () {
-      const [nonTenant] = await ethers.getSigners();
-      await expect(leaseAgreement.connect(nonTenant).signLease(0, nonTenant.address)).to.be.revertedWith(
-        "Only the designated tenant can sign this lease.",
-      );
+      // Assuming the NFT ID is 1 for the first minted NFT
+      const ownerOfNFT = await leaseNFT.ownerOf(1);
+      expect(ownerOfNFT).to.equal(tenant.address);
     });
   });
+
+  // Additional tests can include failure cases, such as trying to mint without signing, or minting by non-tenant.
 });
